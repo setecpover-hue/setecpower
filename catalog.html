@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101b25"><title>Каталог обладнання — SETEC POWER</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="shop.css">
+</head>
+<body>
+<header class="header">
+  <button class="menu-toggle" aria-label="Відкрити меню" aria-expanded="false"><i></i><i></i><i></i></button>
+  <nav class="nav"><div class="nav-group">
+      <a class="nav-parent" href="about.html">Про компанію</a>
+      <button class="submenu-toggle" type="button" aria-label="Відкрити підменю" aria-expanded="false">⌄</button>
+      <div class="nav-dropdown">
+        <a href="about.html">Про компанію</a>
+        <a href="objects.html">Наші об’єкти</a>
+        <a href="delivery.html">Доставка та оплата</a>
+        <a href="returns.html">Повернення</a>
+      </div>
+    </div><a href="index.html#solutions">Рішення</a><a class="active" href="catalog.html">Каталог</a><a href="contacts.html">Контакти</a><a class="nav-cta" href="contacts.html">Отримати консультацію ↗</a></nav>
+</header>
+<main>
+  <div class="wrap crumbs"><a href="index.html">Головна</a> / <span>Каталог</span></div>
+  <section class="catalog-content">
+    <aside class="cat-side">
+    <div class="category-tabs" role="group" aria-label="Фільтр категорій">
+      <button class="filter active" data-filter="all">Усе обладнання</button><button class="filter" data-filter="panels">Сонячні панелі</button><button class="filter" data-filter="inverters">Інвертори</button><button class="filter" data-filter="batteries">Акумулятори</button><button class="filter" data-filter="bess">BESS та резерв</button><button class="filter" data-filter="mounting">Кріплення</button><button class="filter" data-filter="kits">Комплекти СЕС</button>
+    </div>
+
+    <div class="filter-panel" id="filterPanel" hidden>
+      <div class="fp-price">
+        <div class="fp-head"><b>Ціна, грн <em id="priceScope"></em></b><span id="priceNote"></span></div>
+        <div class="range"><div class="range-track"><div class="range-fill" id="rangeFill"></div></div><input type="range" id="rMin" aria-label="Мінімальна ціна"><input type="range" id="rMax" aria-label="Максимальна ціна"></div>
+        <div class="fp-nums"><input type="number" id="nMin" aria-label="Від"><span>—</span><input type="number" id="nMax" aria-label="До"></div>
+      </div>
+      <div class="fp-checks">
+        <label><input type="checkbox" id="fHits"> Тільки хіти</label>
+        <label><input type="checkbox" id="fFav"> Тільки обране</label>
+        <label><input type="checkbox" id="fNoPrice" checked> Показувати «Ціна за запитом»</label>
+        <button class="pill" type="button" id="filterReset">Скинути</button>
+      </div>
+    </div>
+</aside><div class="cat-main"><div class="catalog-toolbar"><div><p class="eyebrow dark">АСОРТИМЕНТ</p><h2>Категорії <em>обладнання</em></h2></div><label class="search-label">Пошук<input id="catalogSearch" type="search" placeholder="Знайти обладнання..."></label></div>
+    <div class="cat-bar">
+      <button class="cat-btn" id="filterToggle" type="button" aria-expanded="false" aria-controls="filterPanel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg>Фільтр<span class="cat-badge" id="filterBadge" hidden></span></button>
+      <label class="cat-sort"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14M8 19l-3-3M8 19l3-3M16 19V5M16 5l-3 3M16 5l3 3"/></svg><select id="sortSelect" aria-label="Сортування"><option value="pop">За популярністю</option><option value="asc">Ціна: від меншої</option><option value="desc">Ціна: від більшої</option><option value="name">За назвою</option></select></label>
+      <div class="cat-view" role="group" aria-label="Вигляд"><button type="button" class="active" data-view="grid" aria-label="Сітка"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7"/><rect x="13" y="4" width="7" height="7"/><rect x="4" y="13" width="7" height="7"/><rect x="13" y="13" width="7" height="7"/></svg></button><button type="button" data-view="list" aria-label="Список"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="6"/><rect x="4" y="14" width="16" height="6"/></svg></button></div>
+    </div>
+    <p class="cat-count" id="catCount"></p>
+    <div class="product-grid" id="productGrid"></div>
+    <p class="catalog-empty" id="catalogEmpty" hidden>За вашим запитом нічого не знайдено.</p></div>
+  </section>
+  <section class="catalog-cta"><div><p class="eyebrow">ПОТРІБНА ДОПОМОГА З ВИБОРОМ?</p><h2>Підберемо обладнання<br><em>під ваш проєкт.</em></h2></div><a class="button button-yellow" href="contacts.html">Отримати консультацію ↗</a></section>
+</main>
+<footer class="footer"><p>Комплексні рішення у сфері сонячної енергетики.</p><div><a href="index.html">Головна</a><a href="index.html#about">Про компанію</a><a href="contacts.html">Контакти</a></div><p class="official-distributor">Ми є офіційними дистриб’юторами SETEC POWER.</p><small>© <span id="year"></span> SETEC POWER. Усі права захищені.</small></footer>
+<script src="products.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="supabase-client.js"></script><script src="script.js"></script>
+<script src="catalog.js"></script>
+<script src="shop.js"></script>
+</body></html>

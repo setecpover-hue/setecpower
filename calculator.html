@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101b25"><title>Калькулятор прорахунку СЕС — SETEC POWER</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="shop.css">
+</head>
+<body>
+<header class="header">
+  <button class="menu-toggle" aria-label="Відкрити меню" aria-expanded="false"><i></i><i></i><i></i></button>
+  <nav class="nav"><div class="nav-group">
+      <a class="nav-parent" href="about.html">Про компанію</a>
+      <button class="submenu-toggle" type="button" aria-label="Відкрити підменю" aria-expanded="false">⌄</button>
+      <div class="nav-dropdown">
+        <a href="about.html">Про компанію</a>
+        <a href="objects.html">Наші об’єкти</a>
+        <a href="delivery.html">Доставка та оплата</a>
+        <a href="returns.html">Повернення</a>
+      </div>
+    </div><a href="index.html#solutions">Рішення</a><a href="catalog.html">Каталог</a><a class="active" href="calculator.html">Калькулятор</a><a href="contacts.html">Контакти</a><a class="nav-cta" href="contacts.html">Отримати консультацію ↗</a></nav>
+</header>
+<main>
+  <section class="catalog-hero"><p class="eyebrow">SETEC POWER / КАЛЬКУЛЯТОР</p><h1>Калькулятор<br><em>прорахунку СЕС.</em></h1><p>Вкажіть своє споживання — отримайте орієнтовну потужність станції, склад обладнання, вартість і строк окупності.</p></section>
+  <section class="calc">
+    <div class="calc-grid">
+      <form class="calc-form" id="calcForm" onsubmit="return false">
+        <div class="cf-row"><div class="cf-head"><label for="cMonthly">Споживання на місяць</label><output><b id="oMonthly">400</b> кВт·год</output></div>
+          <input type="range" id="cMonthlyRange" min="50" max="3000" step="10" value="400" aria-label="Споживання на місяць"><div class="cf-sub"><input type="number" id="cMonthly" min="10" max="100000" value="400"><span>кВт·год / міс — введіть точне значення з рахунку</span></div></div>
+        <div class="cf-row"><div class="cf-head"><label for="cCover">Покрити споживання</label><output><b id="oCover">100</b> %</output></div>
+          <input type="range" id="cCover" min="30" max="100" step="5" value="100"></div>
+        <div class="cf-row"><div class="cf-head"><span>Тип станції</span></div><div class="seg"><label><input type="radio" name="type" value="grid" checked><span>Мережева</span></label><label><input type="radio" name="type" value="hybrid"><span>Гібридна з акумулятором</span></label></div></div>
+        <div class="cf-row cf-backup" id="backupBox" hidden>
+          <div class="cf-head"><label for="cLoad">Навантаження під резерв</label><output><b id="oLoad">3</b> кВт</output></div>
+          <input type="range" id="cLoad" min="0.5" max="20" step="0.5" value="3">
+          <div class="cf-head"><label for="cHours">Тривалість резерву</label><output><b id="oHours">6</b> год</output></div>
+          <input type="range" id="cHours" min="1" max="24" step="1" value="6"></div>
+        <div class="cf-row"><div class="cf-head"><span>Монтаж</span></div><div class="seg"><label><input type="radio" name="roof" value="pitched" checked><span>Скатний дах</span></label><label><input type="radio" name="roof" value="flat"><span>Плоский дах</span></label><label><input type="radio" name="roof" value="ground"><span>Земля</span></label></div></div>
+        <div class="cf-row"><div class="cf-head"><span>Регіон</span></div><div class="seg"><label><input type="radio" name="region" value="north"><span>Північ</span></label><label><input type="radio" name="region" value="center" checked><span>Центр</span></label><label><input type="radio" name="region" value="south"><span>Південь</span></label></div></div>
+        <div class="cf-row"><div class="cf-head"><label for="cTariff">Ваш тариф</label></div><div class="cf-sub"><input type="number" id="cTariff" min="0.5" step="0.01" value="4.32"><span>грн / кВт·год — змініть на актуальний</span></div></div>
+      </form>
+      <aside class="calc-result" aria-live="polite">
+        <p class="eyebrow">ОРІЄНТОВНИЙ РЕЗУЛЬТАТ</p>
+        <div class="cr-total"><small>Орієнтовна вартість</small><strong id="rTotal">—</strong></div>
+        <dl class="cr-stats">
+          <div><dt>Потужність станції</dt><dd id="rKwp">—</dd></div>
+          <div><dt>Панелі</dt><dd id="rPanels">—</dd></div>
+          <div><dt>Інвертор</dt><dd id="rInv">—</dd></div>
+          <div><dt>Акумулятор</dt><dd id="rBat">—</dd></div>
+          <div><dt>Генерація за рік</dt><dd id="rProd">—</dd></div>
+          <div><dt>Економія за рік</dt><dd id="rSave">—</dd></div>
+        </dl>
+        <div class="cr-payback"><span>Окупність</span><b id="rPay">—</b></div>
+        <div class="cr-chart"><div class="cr-bars" id="rBars"></div><div class="cr-months" id="rMonths"></div>
+          <p class="cr-legend"><i class="bar"></i> генерація станції <i class="line"></i> ваше споживання</p></div>
+        <a class="button button-yellow" id="rCta" href="contacts.html">Отримати точний прорахунок <span>↗</span></a>
+        <small class="cr-note">Розрахунок орієнтовний і не є пропозицією. Точну вартість і склад визначимо після консультації та обстеження об’єкта.</small>
+      </aside>
+    </div>
+  </section>
+</main>
+<footer class="footer"><p>Комплексні рішення у сфері сонячної енергетики.</p><div><a href="index.html">Головна</a><a href="index.html#about">Про компанію</a><a href="contacts.html">Контакти</a></div><p class="official-distributor">Ми є офіційними дистриб’юторами SETEC POWER.</p><small>© <span id="year"></span> SETEC POWER. Усі права захищені.</small></footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="supabase-client.js"></script><script src="script.js"></script>
+<script src="calculator.js"></script>
+<script src="shop.js"></script>
+</body></html>

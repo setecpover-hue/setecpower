@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#1d2129">
+<title>Адмін-панель — SETEC POWER</title><link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-body"><div class="adm">
+<aside class="adm-side"><a class="admin-brand" href="index.html">SETEC POWER <span>ADMIN</span></a>
+<nav class="admin-tabs" aria-label="Розділи"><button class="active" data-tab="dashboard">▦ Огляд</button><button data-tab="products">▣ Товари</button><button data-tab="categories">▤ Категорії</button><button data-tab="orders">☰ Замовлення <span id="newOrderCount"></span></button><button data-tab="carts">⛟ Кошики</button><button data-tab="calculator">∑ Калькулятор</button></nav>
+<div class="adm-side-foot"><a href="index.html" target="_blank">Відкрити сайт ↗</a><button id="exportBtn" class="admin-btn">Експорт даних</button><label class="admin-btn import-btn">Імпорт даних<input id="importFile" type="file" accept="application/json"></label></div></aside>
+<main class="adm-main">
+<section class="admin-panel active" id="tab-dashboard">
+  <div class="admin-section-head"><div><p class="eyebrow dark">ОГЛЯД</p><h2>Панель керування</h2></div><button class="admin-btn primary" data-goto="products">＋ Додати товар</button></div>
+  <div class="stat-grid"><div class="stat"><span>Товарів у каталозі</span><b id="stProducts">0</b></div><div class="stat"><span>Позначено «Хіт»</span><b id="stHits">0</b></div><div class="stat"><span>Ціна за запитом</span><b id="stNoPrice">0</b></div><div class="stat accent"><span>Нових замовлень</span><b id="stOrders">—</b></div></div>
+  <div class="dash-cols"><div class="card"><h3>Товари за категоріями</h3><div id="stCats"></div></div>
+  <div class="card"><h3>Швидкі дії</h3><div class="quick"><button class="admin-btn" data-goto="products">Керувати товарами</button><button class="admin-btn" data-goto="orders">Переглянути замовлення</button><button class="admin-btn" data-goto="carts">Активність кошиків</button><button class="admin-btn" data-goto="calculator">Налаштувати калькулятор</button></div></div></div>
+</section>
+  <section class="admin-panel" id="tab-products">
+    <div class="admin-section-head"><div><p class="eyebrow dark">КАТАЛОГ</p><h2>Товари <em id="productCount"></em></h2></div><button class="admin-btn primary" id="newProduct">＋ Додати товар</button></div>
+    <div class="admin-product-layout">
+      <div class="admin-list-wrap"><input id="adminSearch" class="admin-search" type="search" placeholder="Пошук товару..."><div id="adminProductList" class="admin-product-list"></div></div>
+      <form id="productForm" class="admin-form">
+        <div class="form-head"><h3 id="formTitle">Новий товар</h3><button type="button" id="deleteProduct" class="text-danger" hidden>Видалити</button></div>
+        <input type="hidden" id="pId">
+        <label>Назва товару<input id="pName" required placeholder="Наприклад, Сонячна панель 500 Вт"></label>
+        <div class="admin-two"><label>Категорія<select id="pCategory"></select></label><label>Ціна, грн<input id="pPrice" type="number" min="0" step="0.01" placeholder="Порожньо — за запитом"></label></div>
+        <label>Короткий опис<textarea id="pShort" rows="2" placeholder="Текст у картці каталогу"></textarea></label>
+        <label>Повний опис<textarea id="pDesc" rows="4" placeholder="Опис на сторінці товару"></textarea></label>
+        <label>Характеристики <span class="field-hint">Один рядок — одна характеристика у форматі Назва: Значення</span><textarea id="pSpecs" rows="4" placeholder="Потужність: 500 Вт&#10;Тип: Монокристалічна&#10;Гарантія: 10 років"></textarea></label>
+        <label class="upload-label">Фото товару<input id="pImageFile" type="file" accept="image/*"><span class="field-hint">JPG, PNG або WEBP. Рекомендовано до 1,5 МБ.</span></label>
+        <div class="admin-image-preview" id="imagePreview">Фото не вибрано</div><input type="hidden" id="pImage">
+        <label>Потужність / ємність для сортування <span class="field-hint">Необов’язково. Число: 5 для 5 кВт, 450 для 450 Вт. Порожньо — визначається автоматично з назви</span><input id="pRank" type="number" step="any" placeholder="5"></label>
+        <label class="check-label"><input id="pHit" type="checkbox"> Позначити як «Хіт»</label>
+        <div class="admin-form-actions"><button class="admin-btn primary" type="submit">Зберегти товар</button><button class="admin-btn" type="button" id="resetForm">Очистити</button></div>
+        <p class="admin-message" id="productMessage" role="status"></p>
+      </form>
+    </div>
+  </section>
+  <section class="admin-panel" id="tab-categories">
+    <div class="admin-section-head"><div><p class="eyebrow dark">КАТАЛОГ</p><h2>Категорії <em id="categoryCount"></em></h2></div><button class="admin-btn primary" id="newCategory" type="button">＋ Додати категорію</button></div>
+    <div class="admin-product-layout">
+      <div class="admin-list-wrap"><div id="adminCategoryList" class="admin-product-list"></div></div>
+      <form id="categoryForm" class="admin-form">
+        <div class="form-head"><h3 id="catFormTitle">Нова категорія</h3><button type="button" id="deleteCategory" class="text-danger" hidden>Видалити</button></div>
+        <label>Назва категорії<input id="cName" required placeholder="Наприклад, Зарядні станції"></label>
+        <label>Тип обладнання <span class="field-hint">Визначає іконку та автоматичні зв’язки: порівняння моделей і сумісні товари підбираються за типом. «Інше» — без автозв’язків.</span><select id="cIcon"></select></label>
+        <div class="admin-form-actions"><button class="admin-btn primary" type="submit">Зберегти категорію</button><button class="admin-btn" type="button" id="catUp">↑ Вище</button><button class="admin-btn" type="button" id="catDown">↓ Нижче</button><button class="admin-btn" type="button" id="resetCategory">Очистити</button></div>
+        <p class="admin-message" id="categoryMessage" role="status"></p>
+      </form>
+    </div>
+  </section>
+  <section class="admin-panel" id="tab-calculator">
+    <div class="admin-section-head"><div><p class="eyebrow dark">ПАРАМЕТРИ РОЗРАХУНКУ</p><h2>Налаштування <em>калькулятора.</em></h2></div></div>
+    <form id="calculatorForm" class="calc-admin-form">
+      <h3>Обладнання та вартість</h3><div class="admin-grid-fields">
+        <label>Потужність панелі, Вт<input name="panelW" type="number" min="1" required></label><label>Ціна однієї панелі, грн<input name="panelPrice" type="number" min="0" required></label><label>Кріплення на панель, грн<input name="mountPrice" type="number" min="0" required></label><label>Акумулятор за кВт·год, грн<input name="batteryPerKwh" type="number" min="0" required></label><label>Монтаж за 1 кВт, грн<input name="workPerKw" type="number" min="0" required></label><label>Кабелі та додаткове обладнання, %<input name="cablesPct" type="number" min="0" max="2" step="0.01" required></label><label>Корисна глибина розряду<input name="usable" type="number" min="0.1" max="1" step="0.01" required></label>
+      </div>
+      <h3>Коефіцієнти монтажу</h3><div class="admin-grid-fields"><label>Скатний дах<input name="roof_pitched" type="number" min="0" step="0.01"></label><label>Плоский дах<input name="roof_flat" type="number" min="0" step="0.01"></label><label>Земля<input name="roof_ground" type="number" min="0" step="0.01"></label></div>
+      <h3>Вартість інвертора за кВт</h3><div class="admin-grid-fields"><label>Мережевий, грн/кВт<input name="inv_grid" type="number" min="0"></label><label>Гібридний, грн/кВт<input name="inv_hybrid" type="number" min="0"></label></div>
+      <h3>Річна генерація з 1 кВт</h3><div class="admin-grid-fields"><label>Північ, кВт·год<input name="yield_north" type="number" min="1"></label><label>Центр, кВт·год<input name="yield_center" type="number" min="1"></label><label>Південь, кВт·год<input name="yield_south" type="number" min="1"></label></div>
+      <h3>Діапазон вартості</h3><div class="admin-grid-fields"><label>Мінімальний коефіцієнт<input name="low" type="number" min="0" step="0.01"></label><label>Максимальний коефіцієнт<input name="high" type="number" min="0" step="0.01"></label></div>
+      <div class="admin-form-actions"><button class="admin-btn primary" type="submit">Зберегти налаштування</button><button class="admin-btn" type="button" id="resetCalculator">Повернути стандартні</button></div><p class="admin-message" id="calculatorMessage" role="status"></p>
+    </form>
+  </section>
+  <section class="admin-panel" id="tab-orders">
+    <div class="admin-section-head"><div><p class="eyebrow dark">ЗАМОВЛЕННЯ КЛІЄНТІВ</p><h2>Вхідні <em>замовлення.</em></h2></div><button class="admin-btn" id="refreshOrders" type="button">Оновити</button></div>
+    <div id="ordersAuth" class="cloud-auth"><h3>Вхід адміністратора</h3><p>Увійдіть через обліковий запис Supabase, якому призначено роль admin.</p><form id="adminLoginForm"><label>Email<input name="email" type="email" required autocomplete="username"></label><label>Пароль<input name="password" type="password" required autocomplete="current-password"></label><button class="admin-btn primary" type="submit">Увійти</button><p id="adminAuthMessage" class="admin-message" role="status"></p></form></div>
+    <div id="ordersContent" hidden>
+      <div class="cloud-toolbar"><span id="adminSignedIn"></span><button class="admin-btn" id="adminLogout" type="button">Вийти</button></div>
+      <div class="order-subtabs" role="tablist" aria-label="Розділи замовлень">
+        <button class="active" type="button" data-order-view="active">Поточні замовлення <span id="activeOrderCount"></span></button>
+        <button type="button" data-order-view="cancelled">Скасовані замовлення <span id="cancelledOrderCount"></span></button>
+      </div>
+      <div id="ordersList" class="cloud-list order-view active"><p>Завантаження…</p></div>
+      <div id="cancelledOrdersList" class="cloud-list order-view" hidden><p>Завантаження…</p></div>
+    </div>
+  </section>
+  <section class="admin-panel" id="tab-carts">
+    <div class="admin-section-head"><div><p class="eyebrow dark">АКТИВНІСТЬ ВІДВІДУВАЧІВ</p><h2>Дії з <em>кошиком.</em></h2><p class="field-hint">Показує останні зафіксовані зміни кошика: додавання, зміна кількості та видалення товарів.</p></div><button class="admin-btn" id="refreshCarts" type="button">Оновити</button></div>
+    <div id="cartsAuthHint" class="field-hint">Для перегляду кошиків спочатку увійдіть у вкладці «Замовлення».</div><div id="cartsList" class="cloud-list"></div>
+  </section>
+  <p class="admin-warning"><strong>Важливо про збереження.</strong> Замовлення та активність кошика надсилаються в Supabase після налаштування ключів. Товари й параметри калькулятора в цій версії поки зберігаються локально в браузері адміністратора; їхню спільну синхронізацію між усіма відвідувачами потрібно підключити окремо.</p>
+</main></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script src="supabase-client.js"></script><script src="products.js"></script><script src="admin.js"></script><script src="supabase-admin.js"></script>
+<script>(()=>{const $=s=>document.querySelector(s),esc=v=>String(v).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+function stats(){let p=[];try{p=JSON.parse(localStorage.getItem('solar-admin-products-v1')||'null')||window.PRODUCTS}catch(e){p=window.PRODUCTS}
+$('#stProducts').textContent=p.length;$('#stHits').textContent=p.filter(x=>x.hit).length;$('#stNoPrice').textContent=p.filter(x=>x.price==null).length;
+const c={};p.forEach(x=>c[x.category]=(c[x.category]||0)+1);$('#stCats').innerHTML=(window.CATEGORIES||[]).map(({id:k,label:v})=>`<div class="bar"><span>${esc(v)}</span><i style="--w:${(c[k]||0)/Math.max(1,p.length)*100}%"></i><b>${c[k]||0}</b></div>`).join('')}
+const go=t=>document.querySelector('.admin-tabs [data-tab="'+t+'"]').click();
+document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.goto)));
+document.querySelectorAll('.admin-tabs button').forEach(b=>b.addEventListener('click',stats));
+new MutationObserver(()=>{$('#stOrders').textContent=$('#newOrderCount').textContent.replace(/[()]/g,'')||'0'}).observe($('#newOrderCount'),{childList:true,characterData:true,subtree:true});
+stats();})();</script>
+</body></html>
